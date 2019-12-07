@@ -2,7 +2,7 @@
  * @file iterator.h
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 0.8
+ * @version 1.0
  */
 
 #include <memory>
