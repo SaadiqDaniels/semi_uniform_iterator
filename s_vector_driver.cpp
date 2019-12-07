@@ -25,9 +25,9 @@
 int main()
 {
     // Three different data structures
-    std::list<inherit::derived1> list_d1;
-    std::vector<inherit::derived1> vector_d1;
-    std::list<inherit::derived3> list_d3;
+    std::list<derived1> list_d1;
+    std::vector<derived1> vector_d1;
+    std::list<derived3> list_d3;
 
     // Push data back into all of the containers
     for(int i = 0; i < 10; ++i)
@@ -39,15 +39,15 @@ int main()
 
         // Alternate between pushing to the front and back of the list
         if(i % 2)
-            list_d3.push_front(inherit::derived3());
+            list_d3.push_front(derived3());
         else
-            list_d3.emplace_back(inherit::derived3());
+            list_d3.emplace_back(derived3());
     }
 
     assert(list_d1.size() == vector_d1.size() && vector_d1.size() == list_d3.size());
 
-    it_rtr list_d1_it_rtr = iterate::MakeIterator<inherit::base>(list_d1.begin());
-    cit_rtr list_d1_cit_rtr = iterate::MakeCIterator<inherit::base>(list_d1.end());
+    it_rtr list_d1_it_rtr = MakeIterator<base>(list_d1.begin());
+    cit_rtr list_d1_cit_rtr = MakeCIterator<base>(list_d1.end());
 
     // Print the d1 list using the iterators
     helper::print(list_d1_it_rtr, list_d1_cit_rtr);

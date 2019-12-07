@@ -14,9 +14,9 @@
 #include "inheritance.h" // Inheritance classes
 
 // An iterator
-typedef std::unique_ptr<iterate::Semi_Uniform_It<inherit::base>*> it_rtr;
+typedef std::unique_ptr<Semi_Uniform_It<base>*> it_rtr;
 // A constant iterator
-typedef std::unique_ptr<const iterate::Semi_Uniform_It<inherit::base>*> cit_rtr;
+typedef std::unique_ptr<const Semi_Uniform_It<base>*> cit_rtr;
 
 namespace helper
 {
