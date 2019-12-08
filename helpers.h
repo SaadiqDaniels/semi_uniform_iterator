@@ -14,24 +14,25 @@
 #include "inheritance.h" // Inheritance classes
 
 // An iterator
-typedef std::unique_ptr<Semi_Uniform_It<base>*> it_rtr;
+typedef std::unique_ptr<Semi_Uniform_It<base> *>       it_rtr;
 // A constant iterator
-typedef std::unique_ptr<const Semi_Uniform_It<base>*> cit_rtr;
+typedef std::unique_ptr<const Semi_Uniform_It<base> *> cit_rtr;
 
 namespace helper
 {
-    void print(it_rtr& begin, cit_rtr& end)
+  void print(it_rtr &begin, cit_rtr &end)
+  {
+    
+    while (**begin != **end)
     {
-        while (begin != end)
-        {
-            // Print out the number
-            std::cout << ***begin << " ";
-            // Move to the next
-            ++(**begin);
-        }
-        // End the line
-        std::cout << std::endl;
+      // Print out the number
+      std::cout << ***begin << " ";
+      // Move to the next
+      ++(**begin);
     }
+    // End the line
+    std::cout << std::endl;
+  }
 }
 
 #endif //TEMPL_ITERATOR_HELPERS_H
