@@ -10,29 +10,19 @@
 
 #include <iostream>
 
-#include "iterator.h"    // Iterator stuff
-#include "inheritance.h" // Inheritance classes
+#include "iteratorwrapper.h"
 
-// An iterator
-typedef std::unique_ptr<Semi_Uniform_It<base> *>       it_rtr;
-// A constant iterator
-typedef std::unique_ptr<const Semi_Uniform_It<base> *> cit_rtr;
+void print(Handle<base> begin, const Handle<base>& end) {
 
-namespace helper
-{
-  void print(it_rtr &begin, cit_rtr &end)
-  {
-    
-    while (**begin != **end)
-    {
-      // Print out the number
-      std::cout << ***begin << " ";
-      // Move to the next
-      ++(**begin);
-    }
-    // End the line
-    std::cout << std::endl;
-  }
+	while (*begin != *end)
+	{
+		// Print out the number
+		std::cout << **begin << " ";
+		// Move to the next
+		++(*begin);
+	}
+	// End the line
+	std::cout << std::endl;
 }
 
 #endif //TEMPL_ITERATOR_HELPERS_H

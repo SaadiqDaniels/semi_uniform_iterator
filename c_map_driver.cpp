@@ -10,8 +10,8 @@
 #include <map>           // std::map
 #include <unordered_map> // std::unordered_map
 
-#include "iterator.h"    // Iterator stuff
-#include "inheritance.h" // Inheritance classes
+#include "iteratorwrapper.h"    // Iterator stuff
+#include "base.h" // Inheritance classes
 
 /*!
  * Tests complex uses of map containers :

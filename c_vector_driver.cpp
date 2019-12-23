@@ -11,8 +11,8 @@
 #include <list>          // std::list
 #include <forward_list>  // std::forward_list
 
-#include "iterator.h"    // Iterator stuff
-#include "inheritance.h" // Inheritance classes
+#include "iteratorwrapper.h"    // Iterator stuff
+#include "base.h" // Inheritance classes
 
 /*!
  * Tests complex uses of vector containers:

@@ -12,8 +12,8 @@
 
 #include <algorithm>     // std::sort, std::find
 
-#include "iterator.h"    // Iterator stuff
-#include "inheritance.h" // Inheritance classes
+#include "iteratorwrapper.h"    // Iterator stuff
+#include "base.h" // Inheritance classes
 
 /*!
  * Tests the uses of the iterator classes with
