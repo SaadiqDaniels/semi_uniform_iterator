@@ -62,6 +62,7 @@ class Handle
 		{
 			// If this is the last instance delete the data
 			delete _data;
+			delete RC;
 		}
 	}
 public:

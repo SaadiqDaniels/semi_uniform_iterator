@@ -12,7 +12,8 @@
 
 #include "iteratorwrapper.h"
 
-void print(Handle<base> begin, const Handle<base>& end) {
+template <typename T>
+void print(Handle<T> begin, const Handle<T>& end) {
 
 	while (*begin != *end)
 	{
