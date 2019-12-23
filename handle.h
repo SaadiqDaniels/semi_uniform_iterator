@@ -41,6 +41,29 @@ class Handle
 	 */
 	int *RC;
 
+	/*!
+	 * @brief Copies the reference if it is needed
+	 */
+	void CopyIf()
+	{
+		if (*RC > 1)
+		{
+			_data = _data->Copy();
+			RC = new int(1);
+		}
+	}
+
+	/*!
+	 * @brief Deletes the object if needed
+	 */
+	void DeleteIf()
+	{
+		if (!--*RC)
+		{
+			// If this is the last instance delete the data
+			delete _data;
+		}
+	}
 public:
 	/*!
 	 * @brief Default constructor, should never be used
@@ -90,11 +113,7 @@ public:
 	 */
 	~Handle() {
 
-		if (!--*RC)
-		{
-			// If this is the last instance delete the data
-			delete _data;
-		}
+		DeleteIf();
 	}
 
 	/*!
@@ -106,11 +125,7 @@ public:
 
 		if (_data != rhs._data)
 		{
-			if (!--*RC)
-			{
-				// If this is the last instance delete the data
-				delete _data;
-			}
+			DeleteIf();
 
 			_data = rhs._data;
 			RC = rhs.RC;
@@ -125,11 +140,7 @@ public:
 	 */
 	Iterator<T> &operator*() {
 
-		if (*RC > 1)
-		{
-			_data = _data->Copy();
-			RC = new int(1);
-		}
+		CopyIf();
 		return *_data;
 	}
 
@@ -148,11 +159,7 @@ public:
 	 */
 	Iterator<T> &operator->() {
 
-		if (*RC > 1)
-		{
-			_data = _data->Copy();
-			RC = new int(1);
-		}
+		CopyIf();
 		return _data;
 	}
 
