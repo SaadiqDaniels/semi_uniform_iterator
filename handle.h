@@ -37,11 +37,9 @@ class Handle
 	Iterator<T> *_data;
 
 	/*!
-	 * @brief A reference counter for the handles,
-	 * based on the pointer address of the _data
-	 * members
+	 * @brief A reference counter for the handles
 	 */
-	static std::unordered_map<Iterator<T> *, unsigned> RC;
+	int *RC;
 
 public:
 	/*!
@@ -54,9 +52,7 @@ public:
 	 * and stores it
 	 * @param rhs The pointer to an iterator to store
 	 */
-	explicit Handle(Iterator<T> *rhs) : _data(rhs) {
-		// Increment the reference counter
-		++RC[_data];
+	explicit Handle(Iterator<T> *rhs) : _data(rhs), RC(new int(1)){
 	}
 
 	/*!
@@ -66,18 +62,16 @@ public:
 	 * @param rhs The pointer to the derived iterator to store
 	 */
 	template<typename U>
-	Handle(IteratorWrapper<T, U> *rhs) : _data(rhs) {
-		// Increment the reference counter
-		++RC[_data];
+	Handle(IteratorWrapper<T, U> *rhs) : _data(rhs), RC(new int(1)) {
 	}
 
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The handle to copy from
 	 */
-	Handle(const Handle<T> &rhs) : _data(rhs._data) {
+	Handle(const Handle<T> &rhs) : _data(rhs._data), RC(rhs.RC) {
 		// Increment the reference counter
-		++RC[_data];
+		++*RC;
 	}
 
 	/*!
@@ -85,9 +79,9 @@ public:
 	 * @param rhs The handle to swap data with
 	 */
 	Handle(Handle<T> &&rhs) {
-		// Swap both data pointers, the total references to both
-		// do not need to change
+		// Swap the data and reference counter, both pointers
 		std::swap(_data, rhs._data);
+		std::swap(RC, rhs.RC);
 	}
 
 	/*!
@@ -96,7 +90,7 @@ public:
 	 */
 	~Handle() {
 
-		if (!--RC[_data])
+		if (!--*RC)
 		{
 			// If this is the last instance delete the data
 			delete _data;
@@ -112,16 +106,16 @@ public:
 
 		if (_data != rhs._data)
 		{
-			// If these objects are not pointing to
-			// the same iterator
-			if (!--RC[_data])
+			if (!--*RC)
 			{
+				// If this is the last instance delete the data
 				delete _data;
 			}
 
 			_data = rhs._data;
+			RC = rhs.RC;
 
-			++RC[_data];
+			++*RC;
 		}
 	}
 
@@ -131,6 +125,11 @@ public:
 	 */
 	Iterator<T> &operator*() {
 
+		if (*RC > 1)
+		{
+			_data = _data->Copy();
+			RC = new int(1);
+		}
 		return *_data;
 	}
 
@@ -149,6 +148,11 @@ public:
 	 */
 	Iterator<T> &operator->() {
 
+		if (*RC > 1)
+		{
+			_data = _data->Copy();
+			RC = new int(1);
+		}
 		return _data;
 	}
 
@@ -161,11 +165,5 @@ public:
 		return _data;
 	}
 };
-
-/*!
- * @brief The declaration of the static RC variable in the handle class
- * @tparam T The base type for the Iterator class
- */
-template<typename T> std::unordered_map<Iterator<T> *, unsigned> Handle<T>::RC;
 
 #endif //TEMPL_ITERATOR_HANDLE_H
