@@ -62,6 +62,7 @@ class Handle<const T>
 
 		if (*RC > 1)
 		{
+			--*RC;
 			_data = _data->Copy();
 			RC    = new int(1);
 		}
@@ -147,7 +148,7 @@ public:
 	 */
 	const T *operator->() const {
 
-		return (*_data)->;
+		return (&**_data);
 	}
 
 	/*!
