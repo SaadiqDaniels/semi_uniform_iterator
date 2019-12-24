@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include "iteratorwrapper.h"
+#include "iterator.h"
 
 template <typename T>
 void print(Handle<T> begin, const Handle<T>& end) {

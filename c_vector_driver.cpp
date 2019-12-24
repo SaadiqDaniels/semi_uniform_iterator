@@ -12,9 +12,9 @@
 #include <list>          // std::list
 #include <forward_list>  // std::forward_list
 
-#include "iteratorwrapper.h"    // Iterator stuff
-#include "base.h" // Inheritance classes
-#include "helpers.h" // print
+#include "iterator.h"    // Iterator stuff
+#include "base.h"        // Inheritance classes
+#include "helpers.h"     // Print function
 
 /*!
  * Tests complex uses of vector containers:

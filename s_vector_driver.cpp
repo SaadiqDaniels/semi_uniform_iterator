@@ -11,8 +11,9 @@
 #include <vector>        // std::vector
 #include <list>          // std::list
 
-#include "iteratorwrapper.h"    // Iterator stuff
-#include "base.h" // Inheritance classes
+#include "iterator.h"    // Iterator stuff
+#include "base.h"        // Inheritance classes
+#include "helpers.h"     // Print function
 
 #include "helpers.h"     // print
 
