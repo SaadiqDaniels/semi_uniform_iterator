@@ -18,9 +18,8 @@ void print(Handle<T> begin, const Handle<T>& end) {
 	while (begin != end)
 	{
 		// Print out the number
-		std::cout << *begin << " ";
 		// Move to the next
-		++begin;
+		std::cout << *(begin++) << " ";
 	}
 	// End the line
 	std::cout << std::endl;
@@ -32,9 +31,8 @@ void print(Handle<T> begin, const Handle<const T>& end) {
 	while (begin != end)
 	{
 		// Print out the number
-		std::cout << *begin << " ";
 		// Move to the next
-		++begin;
+		std::cout << *(begin++) << " ";
 	}
 	// End the line
 	std::cout << std::endl;

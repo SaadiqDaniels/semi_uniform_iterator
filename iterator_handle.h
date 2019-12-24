@@ -15,7 +15,7 @@
  * @brief Forward declaration of the Iterator class
  * @tparam T The base iterator type
  */
-template <typename T>
+template<typename T>
 class Iterator;
 
 /*!
@@ -23,7 +23,7 @@ class Iterator;
  * @tparam T The base iterator type
  * @tparam U The derived iterator type
  */
-template <typename T, typename U>
+template<typename T, typename U>
 class IteratorWrapper;
 
 /*!
@@ -231,10 +231,24 @@ public:
 	 * stored inside of this class
 	 * @return This handle
 	 */
-	Handle&operator++()
-	{
+	Handle &operator++() {
+
+		CopyIf();
 		++(*_data);
 		return *this;
+	}
+
+	/*!
+	 * @brief Post increment operator, increments the iterator
+	 * but returns the previous value
+	 * @return The iterator, pre-increment
+	 */
+	const Handle<T> operator++(int) {
+
+		const Handle<T> RV(*this);
+		CopyIf();
+		++*_data;
+		return RV;
 	}
 };
 

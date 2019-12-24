@@ -206,7 +206,7 @@ int base::number;
  * @param data The data to print
  * @return The output stream
  */
-std::ostream &operator<<(std::ostream &os, base &data) {
+std::ostream &operator<<(std::ostream &os, const base &data) {
 	// Print the float with padding
 	os << " " << data.getfloat() << " ";
 	return os;
