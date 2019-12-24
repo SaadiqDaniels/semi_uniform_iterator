@@ -44,20 +44,20 @@ class Handle
 	/*!
 	 * @brief Copies the reference if it is needed
 	 */
-	void CopyIf()
-	{
+	void CopyIf() {
+
 		if (*RC > 1)
 		{
 			_data = _data->Copy();
-			RC = new int(1);
+			RC    = new int(1);
 		}
 	}
 
 	/*!
 	 * @brief Deletes the object if needed
 	 */
-	void DeleteIf()
-	{
+	void DeleteIf() {
+
 		if (!--*RC)
 		{
 			// If this is the last instance delete the data
@@ -65,6 +65,7 @@ class Handle
 			delete RC;
 		}
 	}
+
 public:
 	/*!
 	 * @brief Default constructor, should never be used
@@ -76,7 +77,7 @@ public:
 	 * and stores it
 	 * @param rhs The pointer to an iterator to store
 	 */
-	explicit Handle(Iterator<T> *rhs) : _data(rhs), RC(new int(1)){
+	explicit Handle(Iterator<T> *rhs) : _data(rhs), RC(new int(1)) {
 	}
 
 	/*!
@@ -129,7 +130,7 @@ public:
 			DeleteIf();
 
 			_data = rhs._data;
-			RC = rhs.RC;
+			RC    = rhs.RC;
 
 			++*RC;
 		}
@@ -139,39 +140,56 @@ public:
 	 * @brief Gives access to the base iterator
 	 * @return The base iterator, by reference
 	 */
-	Iterator<T> &operator*() {
+	T &operator*() {
 
 		CopyIf();
-		return *_data;
+		return **_data;
 	}
 
 	/*!
 	 * @brief Gives access to the base iterator
 	 * @return The base iterator, by reference
 	 */
-	const Iterator<T> &operator*() const {
+	const T &operator*() const {
 
-		return *_data;
+		return **_data;
 	}
 
 	/*!
 	 * @brief Gives access to the base iterator
 	 * @return The base iterator, by pointer
 	 */
-	Iterator<T> &operator->() {
+	T *operator->() {
 
 		CopyIf();
-		return _data;
+		return (*_data)->;
 	}
 
 	/*!
 	 * @brief Gives access to the base iterator
 	 * @return The base iterator, by pointer
 	 */
-	const Iterator<T> &operator->() const {
+	const T *operator->() const {
 
-		return _data;
+		return (*_data)->;
 	}
+
+	bool operator==(const Handle<T> &rhs) {
+
+		return *_data == *rhs._data;
+	}
+
+	bool operator!=(const Handle<T> &rhs) {
+
+		return *_data != *rhs._data;
+	}
+
+	Handle&operator++()
+	{
+		++(*_data);
+		return *this;
+	}
+
 };
 
 #endif //TEMPL_ITERATOR_HANDLE_H

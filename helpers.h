@@ -15,12 +15,12 @@
 template <typename T>
 void print(Handle<T> begin, const Handle<T>& end) {
 
-	while (*begin != *end)
+	while (begin != end)
 	{
 		// Print out the number
-		std::cout << **begin << " ";
+		std::cout << *begin << " ";
 		// Move to the next
-		++(*begin);
+		++begin;
 	}
 	// End the line
 	std::cout << std::endl;
