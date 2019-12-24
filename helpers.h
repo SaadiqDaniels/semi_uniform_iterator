@@ -26,4 +26,18 @@ void print(Handle<T> begin, const Handle<T>& end) {
 	std::cout << std::endl;
 }
 
+template <typename T>
+void print(Handle<T> begin, const Handle<const T>& end) {
+
+	while (begin != end)
+	{
+		// Print out the number
+		std::cout << *begin << " ";
+		// Move to the next
+		++begin;
+	}
+	// End the line
+	std::cout << std::endl;
+}
+
 #endif //TEMPL_ITERATOR_HELPERS_H

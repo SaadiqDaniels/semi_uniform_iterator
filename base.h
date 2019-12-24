@@ -8,6 +8,8 @@
  *      inheritance objects and classes
  */
 
+#include <iostream>
+
 #ifndef TEMPL_ITERATOR_BASE_H
 #define TEMPL_ITERATOR_BASE_H
 
