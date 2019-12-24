@@ -44,13 +44,6 @@ public:
 	virtual const T *operator->() const = 0;
 
 	/*!
-	 * @brief No assignment operator or increment operator
-	 * because of const-ness
-	 * virtual Iterator &operator++() = 0;
-	 * virtual Iterator &operator=(const Iterator<T> &rhs) = 0;
-	 */
-
-	/*!
 	 * @brief Equality operator
 	 * @param rhs The iterator to compare with
 	 * @return True if the iterators are pointing at the same object
