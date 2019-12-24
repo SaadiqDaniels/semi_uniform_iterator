@@ -15,7 +15,7 @@
  * @brief Forward declaration of the Iterator class
  * @tparam T The base iterator type
  */
-template <typename T>
+template<typename T>
 class Iterator;
 
 /*!
@@ -30,7 +30,7 @@ class IteratorWrapper;
  * @brief Forward declaration of the handle class
  * @tparam T The base class type
  */
-template <typename T>
+template<typename T>
 class Handle;
 
 /*!

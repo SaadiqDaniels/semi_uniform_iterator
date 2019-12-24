@@ -12,8 +12,8 @@
 
 #include "iterator.h"
 
-template <typename T>
-void print(Handle<T> begin, const Handle<T>& end) {
+template<typename T>
+void print(Handle<T> begin, const Handle<T> &end) {
 
 	while (begin != end)
 	{
@@ -25,8 +25,8 @@ void print(Handle<T> begin, const Handle<T>& end) {
 	std::cout << std::endl;
 }
 
-template <typename T>
-void print(Handle<T> begin, const Handle<const T>& end) {
+template<typename T>
+void print(Handle<T> begin, const Handle<const T> &end) {
 
 	while (begin != end)
 	{
