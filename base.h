@@ -27,6 +27,19 @@ class base
 	 */
 	static int number;
 public:
+
+	/*!
+	 * @brief Comparison operator between to objects that
+	 * derive from base
+	 * @param lhs The left hand side argument
+	 * @param rhs The right hand side argument
+	 * @return Whichever one is less than the other
+	 */
+	friend bool operator<(const base& lhs, const base &rhs)
+	{
+		return lhs._baseint < rhs._baseint;
+	}
+
 	/*!
 	 * A virtual destructor
 	 */
@@ -154,18 +167,12 @@ public:
  */
 class derived3 : public derived1
 {
+public:
 	/*!
 	 * Constructor for a derived3 that takes a float
 	 * @param newNum the number to place into derived1
 	 */
-	derived3(float newNum) : derived1(newNum) {
-	}
-
-public:
-	/*!
-	 * The default constructor for the third class
-	 */
-	derived3() : derived1(300.f) {
+	explicit derived3(float num) : derived1(num) {
 	}
 
 	/*!

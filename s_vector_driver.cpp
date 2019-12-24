@@ -40,11 +40,11 @@ int main() {
 		// Alternate between pushing to the front and back of the list
 		if (i % 2)
 		{
-			list_d3.push_front(derived3());
+			list_d3.push_front(derived3(i));
 		}
 		else
 		{
-			list_d3.emplace_back(derived3());
+			list_d3.emplace_back(derived3(i));
 		}
 	}
 

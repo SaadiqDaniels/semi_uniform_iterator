@@ -11,6 +11,7 @@
 #include <vector>        // std::vector
 #include <list>          // std::list
 #include <forward_list>  // std::forward_list
+#include <algorithm>     // std::sort
 
 #include "iterator.h"    // Iterator stuff
 #include "base.h"        // Inheritance classes
@@ -40,11 +41,11 @@ int main() {
 		// Alternate between pushing to the front and back of the list
 		if (i % 2)
 		{
-			list_d3.push_front(derived3());
+			list_d3.push_front(derived3(i));
 		}
 		else
 		{
-			list_d3.emplace_back(derived3());
+			list_d3.emplace_back(derived3(i));
 		}
 	}
 
@@ -52,11 +53,16 @@ int main() {
 	assert(list_d1.size() == vector_d1.size() && vector_d1.size() == list_d3.size());
 
 	// Make iterators out of the two objects
-	auto list_d1_it_rtr  = MakeIterator<base>(vector_d1.begin());
-	auto list_d1_cit_rtr = MakeIterator<const base>(vector_d1.end());
+	auto list_d1_it_rtr  = MakeIterator<base>(list_d3.begin());
+	auto list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
 
 	// Print the d1 list using the iterators
 	print(list_d1_it_rtr, list_d1_cit_rtr);
+
+	auto ld = [](const base &lhs, const base &rhs) {
+		return lhs < rhs;
+	};
+	//std::sort(list_d1_it_rtr, list_d1_cit_rtr, ld);
 
 	// Print again
 	print(list_d1_it_rtr, list_d1_cit_rtr);
