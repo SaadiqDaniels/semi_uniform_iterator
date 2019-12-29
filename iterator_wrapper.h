@@ -15,7 +15,7 @@
  * @brief A forward declaration of the Iterator class
  * @tparam T The base class type
  */
-template <typename T>
+template<typename T>
 class Iterator;
 
 /*!
@@ -39,33 +39,41 @@ public:
 	 * @brief Conversion constructor, taking a derived iterator
 	 * @param iterator The derived iterator to store
 	 */
-	explicit IteratorWrapper(const U &iterator) : _data(iterator) {
+	explicit IteratorWrapper(const U &iterator) noexcept(true) : Iterator<T>(this), _data(iterator) {
 	}
 
 	/*!
 	 * @brief Conversion constructor, using the iterator base class
 	 * @param rhs The iterator to copy
 	 */
-	explicit IteratorWrapper(const Iterator<T> &rhs) : _data(reinterpret_cast<IteratorWrapper<T, U> *>(&rhs)->_data) {
+	explicit IteratorWrapper(const Iterator<T> &rhs) noexcept(true) : Iterator<T>(this), _data(
+		reinterpret_cast<IteratorWrapper<T, U> *>(&rhs)->_data) {
 	}
 
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The IteratorWrapper to copy
 	 */
-	IteratorWrapper(const IteratorWrapper<T, U> &rhs) : _data(rhs._data) {
+	explicit IteratorWrapper(const IteratorWrapper<T, U> &rhs) noexcept(true) : Iterator<T>(this), _data(rhs._data) {
 	}
+
+	/*!
+	 * @brief Copy constructor, const correct
+	 * @param rhs The const IteratorWrapper to copy
+	 */
+	// IteratorWrapper(const IteratorWrapper<const T, U> &rhs) noexcept(true) : Iterator<T>(this), _data(rhs._data) {
+	// }
 
 	/*!
 	 * @brief Virtual destructor
 	 */
-	virtual ~IteratorWrapper() = default;
+	virtual ~IteratorWrapper() noexcept(true) = default;
 
 	/*!
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual T &operator*() {
+	virtual T &operator*() noexcept(true) {
 
 		return *_data;
 	}
@@ -74,7 +82,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual const T &operator*() const {
+	virtual const T &operator*() const noexcept(true) {
 
 		return *_data;
 	}
@@ -83,7 +91,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual T *operator->() {
+	virtual T *operator->() noexcept(true) {
 
 		return &*_data;
 	}
@@ -92,7 +100,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual const T *operator->() const {
+	virtual const T *operator->() const noexcept(true) {
 
 		return &*_data;
 	}
@@ -101,7 +109,7 @@ public:
 	 * @brief Increment operator, moves the pointer forward
 	 * @return A reference to the left hand object
 	 */
-	virtual Iterator<T> &operator++() {
+	virtual Iterator<T> &operator++() noexcept(true) {
 
 		++_data;
 		return *this;
@@ -112,7 +120,7 @@ public:
 	 * @param rhs The Iterator to copy
 	 * @return A reference to the left hand object
 	 */
-	virtual Iterator<T> &operator=(const Iterator<T> &rhs) {
+	virtual Iterator<T> &operator=(const Iterator<T> &rhs) noexcept(true) {
 
 		_data = reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs)->_data;
 		return *this;
@@ -123,8 +131,8 @@ public:
 	 * @param rhs The Iterator to copy
 	 * @return A reference to the left hand object
 	 */
-	 // TODO: Find out why MSVC does not like this line (works on gcc 6.1+)
-	// virtual Iterator<T> &operator=(const Iterator<const T> &rhs) {
+	// TODO: Find out why MSVC does not like this line (works on gcc 6.1+)
+	// virtual Iterator<T> &operator=(const Iterator<const T> &rhs) noexcept(true) {
 	//
 	// 	_data = reinterpret_cast<const IteratorWrapper<const T, U> *>(&rhs)->_data;
 	// 	return *this;
@@ -135,7 +143,7 @@ public:
 	 * @param rhs The iterator to compare with
 	 * @return True if the iterators are pointing at the same object
 	 */
-	virtual bool operator==(const Iterator<T> &rhs) const {
+	virtual bool operator==(const Iterator<T> &rhs) const noexcept(true) {
 
 		return _data == (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_data;
 	}
@@ -145,17 +153,17 @@ public:
 	 * @param rhs The iterator to compare with
 	 * @return True if the iterators are pointing at the same object
 	 */
-	virtual bool operator==(const Iterator<const T> &rhs) const {
-
-		return _data == (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_data;
-	}
+	// virtual bool operator==(const Iterator<const T> &rhs) const noexcept(true) {
+	//
+	// 	return _data == (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_data;
+	// }
 
 	/*!
 	 * @brief Inequality operator
 	 * @param rhs The iterator to compare with
 	 * @return False if the iterators are pointing at the same object
 	 */
-	virtual bool operator!=(const Iterator<T> &rhs) const {
+	virtual bool operator!=(const Iterator<T> &rhs) const noexcept(true) {
 
 		return !((*this) == rhs);
 	}
@@ -165,16 +173,16 @@ public:
 	 * @param rhs The iterator to compare with
 	 * @return False if the iterators are pointing at the same object
 	 */
-	virtual bool operator!=(const Iterator<const T> &rhs) const {
-
-		return !((*this) == rhs);
-	}
+	// virtual bool operator!=(const Iterator<const T> &rhs) const noexcept(true) {
+	//
+	// 	return !((*this) == rhs);
+	// }
 
 	/*!
 	 * @brief Copies this iterator
 	 * @return A new, identical iterator
 	 */
-	virtual Iterator<T> *Copy() const {
+	virtual Iterator<T> *Copy() const noexcept(true) {
 
 		return new IteratorWrapper<T, U>(_data);
 	}

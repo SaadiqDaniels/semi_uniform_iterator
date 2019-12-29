@@ -12,23 +12,23 @@
 #define TEMPL_ITERATOR_ITERATOR_H
 
 #include "iterator_base.h"
-#include "const_iterator_base.h"
-#include "iterator_handle.h"
-#include "const_iterator_handle.h"
 #include "iterator_wrapper.h"
+#if 0
+#include "const_iterator_base.h"
 #include "const_iterator_wrapper.h"
+#endif // #if 0
 
 /*!
  * @brief Creates an iterator and associated handle
  * @tparam T The base type (must be specified)
  * @tparam U The derived iterator type (can be deduced) (vector.begin())
  * @param iterator The derived iterator to store
- * @return A new handle to the derived iterator
+ * @return A new iterator
  */
 template<typename T, typename U>
-Handle<T> MakeIterator(const U &iterator) {
+Iterator<T> MakeIterator(const U &iterator) {
 
-	return Handle<T>(new IteratorWrapper<T, U>(iterator));
+	return *new IteratorWrapper<T, U>(iterator);
 }
 
 #endif //TEMPL_ITERATOR_ITERATOR_H
