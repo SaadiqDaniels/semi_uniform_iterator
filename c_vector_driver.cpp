@@ -54,16 +54,11 @@ int main() {
 
 	// Make iterators out of the two objects
 	auto list_d1_it_rtr  = MakeIterator<base>(list_d3.begin());
-	auto list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
+	Handle<const base> list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
 
 	// Print the d1 list using the iterators
 	print(list_d1_it_rtr, list_d1_cit_rtr);
-
-	auto ld = [](const base &lhs, const base &rhs) {
-		return lhs < rhs;
-	};
-	//std::sort(list_d1_it_rtr, list_d1_cit_rtr, ld);
-
+	
 	// Print again
 	print(list_d1_it_rtr, list_d1_cit_rtr);
 
