@@ -35,7 +35,8 @@ class Iterator
 		{
 			--*_RC;
 			_data = Copy();
-			_RC   = new int(1);
+			_RC   = _data->_RC;
+			++*_RC;
 		}
 	}
 
