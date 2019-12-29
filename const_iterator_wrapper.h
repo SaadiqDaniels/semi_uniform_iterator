@@ -10,6 +10,8 @@
 #ifndef TEMPL_ITERATOR_CONST_ITERATOR_WRAPPER_H
 #define TEMPL_ITERATOR_CONST_ITERATOR_WRAPPER_H
 
+#if 0
+
 /*!
  * @brief A forward declaration of the Iterator class
  * @tparam T The base class type
@@ -40,7 +42,7 @@ class IteratorWrapper<const T, U> : public Iterator<const T>
 	/*!
 	 * @brief The derived iterator to store internally
 	 */
-	U _data;
+	U _data; 
 
 public:
 	/*!
@@ -61,7 +63,14 @@ public:
 	 * @brief Copy constructor
 	 * @param rhs The IteratorWrapper to copy
 	 */
-	IteratorWrapper(const IteratorWrapper<T, U> &rhs) : _data(rhs._data) {
+	explicit IteratorWrapper(const IteratorWrapper<T, U> &rhs) : _data(rhs._data) {
+	}
+
+	/*!
+	 * @brief Copy constructor, const correct
+	 * @param rhs The const IteratorWrapper to copy
+	 */
+	IteratorWrapper(const IteratorWrapper<const T, U> &rhs) : _data(rhs._data) {
 	}
 
 	/*!
@@ -88,6 +97,16 @@ public:
 	}
 
 	/*!
+	 * @brief Increment operator, moves the pointer forward
+	 * @return A reference to the left hand object
+	 */
+	virtual Iterator<const T> &operator++() {
+
+		++_data;
+		return *this;
+	}
+
+	/*!
 	 * @brief Equality operator
 	 * @param rhs The iterator to compare with
 	 * @return True if the iterators are pointing at the same object
@@ -96,6 +115,29 @@ public:
 
 		return _data == (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_data;
 	}
+
+	/*!
+	 * @brief Assignment operator
+	 * @param rhs The Iterator to copy
+	 * @return A reference to the left hand object
+	 */
+	virtual Iterator<const T> &operator=(const Iterator<T> &rhs) {
+
+		_data = reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs)->_data;
+		return *this;
+	}
+
+	/*!
+	 * @brief Assignment operator, const qualified
+	 * @param rhs The Iterator to copy
+	 * @return A reference to the left hand object
+	 */
+	// TODO: Find out why MSVC does not like this line (works on gcc 6.1+)
+	// virtual Iterator<const T> &operator=(const Iterator<const T> &rhs) {
+	//
+	// 	_data = reinterpret_cast<const IteratorWrapper<const T, U> *>(&rhs)->_data;
+	// 	return *this;
+	// }
 
 	/*!
 	 * @brief Equality operator, const qualified
@@ -136,5 +178,7 @@ public:
 		return new IteratorWrapper<const T, const U>(_data);
 	}
 };
+
+#endif // #if 0
 
 #endif //TEMPL_ITERATOR_CONST_ITERATOR_WRAPPER_H

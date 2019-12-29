@@ -183,16 +183,6 @@ public:
 	}
 
 	/*!
-	 * @brief Equality operator, const qualified T
-	 * @param rhs The iterator to compare with
-	 * @return True if the iterators are pointing at the same object
-	 */
-	// virtual bool operator==(const Iterator<const T> &rhs) const noexcept(true) {
-	//
-	// 	return *_data == *rhs._data;
-	// }
-
-	/*!
 	 * @brief Inequality operator
 	 * @param rhs The iterator to compare with
 	 * @return False if the iterators are pointing at the same object
@@ -201,16 +191,6 @@ public:
 
 		return !(*_data == *rhs._data);
 	}
-
-	/*!
-	 * @brief Inequality operator, const qualified T
-	 * @param rhs The iterator to compare with
-	 * @return False if the iterators are pointing at the same object
-	 */
-	// virtual bool operator!=(const Iterator<const T> &rhs) const noexcept(true) {
-	//
-	// 	return !(*_data == *rhs._data);
-	// }
 
 	/*!
 	 * @brief Copies this iterator

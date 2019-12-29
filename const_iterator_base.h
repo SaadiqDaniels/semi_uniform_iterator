@@ -11,6 +11,8 @@
 #ifndef TEMPL_ITERATOR_CONST_ITERATOR_BASE_H
 #define TEMPL_ITERATOR_CONST_ITERATOR_BASE_H
 
+#if 0
+
 /*!
  * @brief Forward declaration of the iterator base class
  * @tparam T The base derived type
@@ -42,6 +44,19 @@ public:
 	 * @return A pointer to the base class stored inside
 	 */
 	virtual const T *operator->() const = 0;
+
+	/*!
+	 * @brief Increment operator, moves the pointer forward
+	 * @return A reference to the left hand object
+	 */
+	virtual Iterator &operator++() = 0;
+
+	/*!
+	 * @brief Assignment operator
+	 * @param rhs The Iterator to copy
+	 * @return A reference to the left hand object
+	 */
+	virtual Iterator &operator=(const Iterator<T> &rhs) = 0;
 
 	/*!
 	 * @brief Equality operator
@@ -77,5 +92,7 @@ public:
 	 */
 	virtual Iterator<const T> *Copy() const = 0;
 };
+
+#endif // #if 0
 
 #endif //TEMPL_ITERATOR_CONST_ITERATOR_BASE_H

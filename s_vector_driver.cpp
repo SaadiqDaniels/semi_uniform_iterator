@@ -59,7 +59,7 @@ int main() {
 	print(list_d1_it_rtr, list_d1_cit_rtr);
 
 	// Print again
-	print(list_d1_it_rtr, list_d1_cit_rtr);
+	//print(list_d1_it_rtr, list_d1_cit_rtr);
 
 	return 0;
 }

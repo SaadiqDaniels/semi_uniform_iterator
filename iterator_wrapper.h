@@ -58,13 +58,6 @@ public:
 	}
 
 	/*!
-	 * @brief Copy constructor, const correct
-	 * @param rhs The const IteratorWrapper to copy
-	 */
-	// IteratorWrapper(const IteratorWrapper<const T, U> &rhs) noexcept(true) : Iterator<T>(this), _data(rhs._data) {
-	// }
-
-	/*!
 	 * @brief Virtual destructor
 	 */
 	virtual ~IteratorWrapper() noexcept(true) = default;
@@ -127,18 +120,6 @@ public:
 	}
 
 	/*!
-	 * @brief Assignment operator, const qualified
-	 * @param rhs The Iterator to copy
-	 * @return A reference to the left hand object
-	 */
-	// TODO: Find out why MSVC does not like this line (works on gcc 6.1+)
-	// virtual Iterator<T> &operator=(const Iterator<const T> &rhs) noexcept(true) {
-	//
-	// 	_data = reinterpret_cast<const IteratorWrapper<const T, U> *>(&rhs)->_data;
-	// 	return *this;
-	// }
-
-	/*!
 	 * @brief Equality operator
 	 * @param rhs The iterator to compare with
 	 * @return True if the iterators are pointing at the same object
@@ -149,16 +130,6 @@ public:
 	}
 
 	/*!
-	 * @brief Equality operator, const qualified
-	 * @param rhs The iterator to compare with
-	 * @return True if the iterators are pointing at the same object
-	 */
-	// virtual bool operator==(const Iterator<const T> &rhs) const noexcept(true) {
-	//
-	// 	return _data == (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_data;
-	// }
-
-	/*!
 	 * @brief Inequality operator
 	 * @param rhs The iterator to compare with
 	 * @return False if the iterators are pointing at the same object
@@ -167,16 +138,6 @@ public:
 
 		return !((*this) == rhs);
 	}
-
-	/*!
-	 * @brief Inequality operator, const qualified
-	 * @param rhs The iterator to compare with
-	 * @return False if the iterators are pointing at the same object
-	 */
-	// virtual bool operator!=(const Iterator<const T> &rhs) const noexcept(true) {
-	//
-	// 	return !((*this) == rhs);
-	// }
 
 	/*!
 	 * @brief Copies this iterator
