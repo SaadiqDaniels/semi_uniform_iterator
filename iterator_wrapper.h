@@ -11,6 +11,8 @@
 #ifndef TEMPL_ITERATOR_ITERATOR_WRAPPER_H
 #define TEMPL_ITERATOR_ITERATOR_WRAPPER_H
 
+#include <type_traits>
+
 /*!
  * @brief A forward declaration of the Iterator class
  * @tparam T The base class type
@@ -26,35 +28,37 @@ class Iterator;
 template<typename T, typename U>
 class IteratorWrapper : public Iterator<T>
 {
-	// The iterator wrapper const class is a friend of this class
-	friend class IteratorWrapper<const T, U>;
+	typedef typename MakeMutable<T>::type MT;
+	typedef typename MakeConst<T>::type   CT;
+	typedef typename MakeMutable<U>::type MU;
+	typedef typename MakeConst<U>::type   CU;
 
 	/*!
 	 * @brief The derived iterator to store internally
 	 */
-	U _data;
+	MU _data;
 
 public:
 	/*!
 	 * @brief Conversion constructor, taking a derived iterator
 	 * @param iterator The derived iterator to store
 	 */
-	explicit IteratorWrapper(const U &iterator) noexcept(true) : Iterator<T>(this), _data(iterator) {
+	explicit IteratorWrapper(CU &iterator) noexcept(true) : Iterator<T>(this), _data(iterator) {
 	}
 
 	/*!
 	 * @brief Conversion constructor, using the iterator base class
 	 * @param rhs The iterator to copy
 	 */
-	explicit IteratorWrapper(const Iterator<T> &rhs) noexcept(true) : Iterator<T>(this), _data(
-		reinterpret_cast<IteratorWrapper<T, U> *>(&rhs)->_data) {
+	explicit IteratorWrapper(const Iterator<MT> &rhs) noexcept(true) : Iterator<MT>(this), _data(
+		reinterpret_cast<IteratorWrapper<MT, MU> *>(&rhs)->_data) {
 	}
 
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The IteratorWrapper to copy
 	 */
-	explicit IteratorWrapper(const IteratorWrapper<T, U> &rhs) noexcept(true) : Iterator<T>(this), _data(rhs._data) {
+	explicit IteratorWrapper(const IteratorWrapper<MT, MU> &rhs) noexcept(true) : Iterator<MT>(this), _data(rhs._data) {
 	}
 
 	/*!
@@ -66,7 +70,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual T &operator*() noexcept(true) {
+	virtual MT &operator*() noexcept(true) {
 
 		return *_data;
 	}
@@ -75,7 +79,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual const T &operator*() const noexcept(true) {
+	virtual CT &operator*() const noexcept(true) {
 
 		return *_data;
 	}
@@ -84,7 +88,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual T *operator->() noexcept(true) {
+	virtual MT *operator->() noexcept(true) {
 
 		return &*_data;
 	}
@@ -93,7 +97,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual const T *operator->() const noexcept(true) {
+	virtual CT *operator->() const noexcept(true) {
 
 		return &*_data;
 	}

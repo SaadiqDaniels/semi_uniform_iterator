@@ -12,6 +12,7 @@
 #define TEMPL_ITERATOR_ITERATOR_BASE_H
 
 #include <algorithm>
+#include <type_traits>
 
 template<typename T, typename U>
 class IteratorWrapper;
@@ -23,6 +24,12 @@ class IteratorWrapper;
 template<typename T>
 class Iterator
 {
+	typedef typename MakeMutable<T>::type MT;
+	typedef typename MakeConst<T>::type   CT;
+
+	friend class Iterator<MT>;
+	friend class Iterator<CT>;
+
 	Iterator<T> *_data;
 	int         *_RC;
 
@@ -54,30 +61,47 @@ class Iterator
 	}
 
 public:
+
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The Iterator to copy from
 	 */
-	Iterator(const Iterator<T> &rhs) noexcept(true) : _data(rhs._data), _RC(&++*rhs._RC) {
+	Iterator(const Iterator<MT> &rhs) noexcept(true) : _data(rhs._data), _RC(&++*rhs._RC) {
+	}
+
+	/*!
+	 * @brief Copy constructor, const
+	 * @param rhs The const iterator to copy from
+	 */
+	Iterator(const Iterator<CT> &rhs) noexcept(true) : _data(rhs._data), _RC(&++*rhs._RC) {
 	}
 
 	/*!
 	 * @brief Move constructor (previous object has null values afterward)
 	 * @param rhs The iterator to swap with
 	 */
-	Iterator(Iterator<T> &&rhs) noexcept(true) : _data(rhs._data), _RC(rhs._RC) {
+	Iterator(Iterator<MT> &&rhs) noexcept(true) : _data(rhs._data), _RC(rhs._RC) {
 
 		rhs._data = nullptr;
 		rhs._RC   = nullptr;
 	}
 
 	/*!
-	 * @brief Conversion constructor, takes an iterator wrapper class
+	 * @brief Conversion constructor, takes an iterator wrapper class pointer
 	 * @tparam U The derived template type
 	 * @param rhs The iterator to copy
 	 */
 	template<typename U>
-	Iterator(IteratorWrapper<T, U> *rhs) noexcept(true) : _data(rhs), _RC(new int(0)) {
+	Iterator(IteratorWrapper<MT, U> *rhs) noexcept(true) : _data(rhs), _RC(new int(0)) {
+	}
+
+	/*!
+	 * @brief Conversion constructor, takes a const iterator wrapper class pointer
+	 * @tparam U The derived template type
+	 * @param rhs The iterator to copy
+	 */
+	template<typename U>
+	Iterator(IteratorWrapper<CT, U> *rhs) noexcept(true) : _data(rhs), _RC(new int(0)) {
 	}
 
 	/*!
@@ -92,7 +116,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual T &operator*() noexcept(true) {
+	virtual MT &operator*() noexcept(true) {
 
 		CopyIf();
 		return **_data;
@@ -102,7 +126,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual const T &operator*() const noexcept(true) {
+	virtual CT &operator*() const noexcept(true) {
 
 		return **_data;
 	}
@@ -111,7 +135,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual T *operator->() noexcept(true) {
+	virtual MT *operator->() noexcept(true) {
 
 		CopyIf();
 		return &**_data;
@@ -121,7 +145,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual const T *operator->() const noexcept(true) {
+	virtual CT *operator->() const noexcept(true) {
 
 		return &**_data;
 	}
@@ -159,6 +183,7 @@ public:
 		DeleteIf();
 		_data = rhs._data;
 		_RC   = rhs._RC;
+		return *this;
 	}
 
 	/*!

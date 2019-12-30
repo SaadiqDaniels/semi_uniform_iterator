@@ -53,8 +53,8 @@ int main() {
 	assert(list_d1.size() == vector_d1.size() && vector_d1.size() == list_d3.size());
 
 	// Make iterators out of the two objects
-	auto list_d1_it_rtr  = MakeIterator<base>(list_d3.begin());
-	Handle<const base> list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
+	auto list_d1_it_rtr  = MakeIterator<const base>(list_d3.begin());
+	Iterator<const base> list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
 
 	// Print the d1 list using the iterators
 	print(list_d1_it_rtr, list_d1_cit_rtr);

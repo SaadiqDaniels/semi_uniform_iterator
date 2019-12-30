@@ -11,8 +11,33 @@
 #ifndef TEMPL_ITERATOR_ITERATOR_H
 #define TEMPL_ITERATOR_ITERATOR_H
 
+template<typename T>
+struct MakeMutable
+{
+	typedef T type;
+};
+
+template<typename T>
+struct MakeMutable<const T>
+{
+	typedef T type;
+};
+
+template<typename T>
+struct MakeConst
+{
+	typedef const T type;
+};
+
+template<typename T>
+struct MakeConst<const T>
+{
+	typedef const T type;
+};
+
 #include "iterator_base.h"
 #include "iterator_wrapper.h"
+
 #if 0
 #include "const_iterator_base.h"
 #include "const_iterator_wrapper.h"

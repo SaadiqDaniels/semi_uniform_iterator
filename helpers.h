@@ -26,7 +26,7 @@ void print(Iterator<T> begin, const Iterator<T> &end) {
 }
 
 template<typename T>
-void print(Iterator<T> begin, const Iterator<const T> &end) {
+void print(Iterator<const T> begin, const Iterator<const T> &end) {
 
 	while (begin != end)
 	{
