@@ -38,11 +38,6 @@ struct MakeConst<const T>
 #include "iterator_base.h"
 #include "iterator_wrapper.h"
 
-#if 0
-#include "const_iterator_base.h"
-#include "const_iterator_wrapper.h"
-#endif // #if 0
-
 /*!
  * @brief Creates an iterator and associated handle
  * @tparam T The base type (must be specified)

@@ -28,6 +28,7 @@ class Iterator
 	typedef typename MakeConst<T>::type   CT;
 
 	friend class Iterator<MT>;
+
 	friend class Iterator<CT>;
 
 	Iterator<T> *_data;
@@ -116,9 +117,8 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual MT &operator*() noexcept(true) {
+	virtual T &operator*() noexcept(true) {
 
-		CopyIf();
 		return **_data;
 	}
 
@@ -135,9 +135,8 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual MT *operator->() noexcept(true) {
+	virtual T *operator->() noexcept(true) {
 
-		CopyIf();
 		return &**_data;
 	}
 

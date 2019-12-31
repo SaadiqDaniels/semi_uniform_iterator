@@ -35,8 +35,8 @@ public:
 	 * @param rhs The right hand side argument
 	 * @return Whichever one is less than the other
 	 */
-	friend bool operator<(const base& lhs, const base &rhs)
-	{
+	friend bool operator<(const base &lhs, const base &rhs) {
+
 		return lhs._baseint < rhs._baseint;
 	}
 
