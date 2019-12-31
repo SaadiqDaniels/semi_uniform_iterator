@@ -61,15 +61,15 @@ public:
 	 */
 	virtual void doSomething() const = 0;
 
-	/*!
-	 * A reference to the internally stored integer
-	 */
-	const int &base_int;
+	[[nodiscard]] int getInt() const {
+
+		return _baseint;
+	}
 protected:
 	/*!
 	 * Default constructor for the derived classes to call
 	 */
-	base() : _baseint(number++), base_int(_baseint) {
+	base() : _baseint(number++) {
 	}
 };
 
