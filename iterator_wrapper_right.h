@@ -21,34 +21,69 @@ class IteratorWrapperRight : public IteratorWrapper<T, U>
 	typedef typename MakeConst<U>::type   CU;
 
 public:
-	IteratorWrapperRight(CU & iterator) noexcept(true) : IteratorWrapper<T, U>(iterator) {}
+	/*!
+	 * @brief Conversion constructor, takes an iterator
+	 * @param iterator The iterator to store internally
+	 */
+	explicit IteratorWrapperRight(CU & iterator) noexcept(true) : IteratorWrapper<T, U>(iterator) {}
 
-	IteratorWrapperRight(const Iterator<T>& rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {}
+	/*!
+	 * @brief Conversion constructor, takes another iterator
+	 * @param rhs The iterator to copy
+	 */
+	explicit IteratorWrapperRight(const Iterator<T>& rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {}
 
+	/*!
+	 * @brief Copy constructor
+	 * @param rhs The IteratorWrapperLeft to copy
+	 */
 	IteratorWrapperRight(const IteratorWrapperRight<T, U>& rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {}
 
+	/*!
+	 * @brief Default destructor
+	 */
 	virtual ~IteratorWrapperRight() noexcept(true) = default;
 
+	/*!
+	 * @brief Dereference operator
+	 * @return A reference to the base class
+	 */
 	virtual T&operator*()  noexcept(true) {
 
 		return IteratorWrapper<T, U>::_it->second;
 	}
 
+	/*!
+	 * @brief Dereference operator, const
+	 * @return A const reference to the base class
+	 */
 	virtual CT&operator*() const noexcept(true) {
 
 		return IteratorWrapper<T, U>::_it->second;
 	}
 
+	/*!
+	 * @brief Arrow operator
+	 * @return A pointer to the base class
+	 */
 	virtual T*operator->()  noexcept(true) {
 
 		return &(IteratorWrapper<T, U>::_it->second);
 	}
 
+	/*!
+	 * @brief Arrow operator, const
+	 * @return A const pointer to the base class
+	 */
 	virtual CT*operator->() const noexcept(true) {
 
 		return &(IteratorWrapper<T, U>::_it->second);
 	}
 
+	/*!
+	 * @brief Copies this iterator
+	 * @return A new, identical iterator
+	 */
 	virtual Iterator<T>* Copy() const noexcept(true) {
 
 		return new IteratorWrapperRight(IteratorWrapper<T, U>::_it);

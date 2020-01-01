@@ -11,24 +11,40 @@
 #ifndef TEMPL_ITERATOR_ITERATOR_H
 #define TEMPL_ITERATOR_ITERATOR_H
 
+/*!
+ * @brief Takes a type and removes const from that type
+ * @tparam T The type to strip const off of
+ */
 template<typename T>
 struct MakeMutable
 {
 	typedef T type;
 };
 
+/*!
+ * @brief Takes a type and removes const from that type
+ * @tparam T The type to strip const off of
+ */
 template<typename T>
 struct MakeMutable<const T>
 {
 	typedef T type;
 };
 
+/*!
+ * @brief Takes a type and returns the const type for that type
+ * @tparam T The type to make const
+ */
 template<typename T>
 struct MakeConst
 {
 	typedef const T type;
 };
 
+/*!
+ * @brief Takes a type and returns the const type for that type
+ * @tparam T The type to make const
+ */
 template<typename T>
 struct MakeConst<const T>
 {
@@ -41,10 +57,10 @@ struct MakeConst<const T>
 #include "iterator_wrapper_right.h"
 
 /*!
- * @brief Creates an iterator and associated handle
+ * @brief Creates an iterator
  * @tparam T The base type (must be specified)
  * @tparam U The derived iterator type (can be deduced) (vector.begin())
- * @param iterator The derived iterator to store
+ * @param iterator The iterator to store internally
  * @return A new iterator
  */
 template<typename T, typename U>
@@ -53,12 +69,28 @@ Iterator<T> MakeIterator(const U &iterator) {
 	return *new IteratorWrapper<T, U>(iterator);
 }
 
+/*!
+ * @brief Creates an iterator, should be used on pair based containers
+ * that look like std::map< base_type , other_type >
+ * @tparam T The base type (must be specified)
+ * @tparam U The derived iterator type (can be deduced) (map.begin())
+ * @param iterator The iterator to store internally
+ * @return A new iterator
+ */
 template<typename T, typename U>
 Iterator<T> MakeIteratorLeft(const U &iterator) {
 
 	return *new IteratorWrapperLeft<T, U>(iterator);
 }
 
+/*!
+ * @brief Creates and iterator, should be used on pair based containers
+ * that look like std::map< other_type , base_type >
+ * @tparam T The base type (must be specified)
+ * @tparam U The derived iterator type (can be deduced) (map.begin())
+ * @param iterator The iterator to store internally
+ * @return A new iterator
+ */
 template<typename T, typename U>
 Iterator<T> MakeIteratorRight(const U &iterator) {
 
