@@ -16,7 +16,7 @@
  * @tparam T The type to strip const off of
  */
 template<typename T>
-struct MakeMutable
+struct make_mutable
 {
 	typedef T type;
 };
@@ -26,7 +26,7 @@ struct MakeMutable
  * @tparam T The type to strip const off of
  */
 template<typename T>
-struct MakeMutable<const T>
+struct make_mutable<const T>
 {
 	typedef T type;
 };
@@ -36,7 +36,7 @@ struct MakeMutable<const T>
  * @tparam T The type to make const
  */
 template<typename T>
-struct MakeConst
+struct make_const
 {
 	typedef const T type;
 };
@@ -46,9 +46,48 @@ struct MakeConst
  * @tparam T The type to make const
  */
 template<typename T>
-struct MakeConst<const T>
+struct make_const<const T>
 {
 	typedef const T type;
+};
+
+/*!
+ * @brief Takes a type and returns false if it is not a pair
+ * @tparam T The type to check
+ */
+template<typename T>
+struct is_pair : std::false_type
+{
+};
+
+/*!
+ * @brief Takes a type and returns type if it is a pair
+ * @tparam T The first pair parameter
+ * @tparam U The second pair parameter
+ */
+template<typename T, typename U>
+struct is_pair<std::pair<T, U>> : std::true_type
+{
+};
+
+template<typename T>
+struct pair_values
+{
+	typedef T type;
+};
+
+template<typename T, typename U>
+struct pair_values<std::pair<T, U> &>
+{
+	typedef T first;
+	typedef U second;
+};
+
+template<typename T, typename U>
+struct pair_values<std::pair<T, U>>
+{
+	typedef T first;
+	typedef U second;
 };
 
 #include "iterator_base.h"

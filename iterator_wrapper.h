@@ -21,16 +21,16 @@
 template<typename T, typename U>
 class IteratorWrapper : public Iterator<T>
 {
-	typedef typename MakeMutable<T>::type MT;
-	typedef typename MakeConst<T>::type   CT;
-	typedef typename MakeMutable<U>::type MU;
-	typedef typename MakeConst<U>::type   CU;
+	typedef typename make_mutable<T>::type MT;
+	typedef typename make_const<T>::type   CT;
+	typedef typename make_mutable<U>::type MU;
+	typedef typename make_const<U>::type   CU;
 
 protected:
 	/*!
 	 * @brief The derived iterator to store internally
 	 */
-	MU _it;
+	MU                                                                _it;
 
 public:
 	/*!
@@ -44,8 +44,8 @@ public:
 	 * @brief Conversion constructor, using the iterator base class
 	 * @param rhs The iterator to copy
 	 */
-	explicit IteratorWrapper(const Iterator<T> &rhs) noexcept(true) : Iterator<T>(this), _it(
-		reinterpret_cast<IteratorWrapper<T, U> *>(&rhs)->_it) {
+	explicit IteratorWrapper(const Iterator<T> &rhs) noexcept(true) : Iterator<T>(this),
+	                                                                  _it(reinterpret_cast<IteratorWrapper<T, U> *>(&rhs)->_it) {
 	}
 
 	/*!
@@ -60,20 +60,15 @@ public:
 	 */
 	virtual ~IteratorWrapper() noexcept(true) = default;
 
-	/*!
-	 * @brief Dereference operator
-	 * @return A reference to the base class stored inside
-	 */
-	virtual T &operator*() noexcept(true) {
-
-		return *_it;
-	}
+	//Figuring out if *operator returns a pair or not
+	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
 
 	/*!
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual CT &operator*() const noexcept(true) {
+	template<typename std::enable_if<!is_pair<RV>::value, T>::type * = nullptr>
+	T &operator*() noexcept(true) {
 
 		return *_it;
 	}
@@ -82,16 +77,8 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual T *operator->() noexcept(true) {
-
-		return &*_it;
-	}
-
-	/*!
-	 * @brief Arrow operator
-	 * @return A pointer to the base class stored inside
-	 */
-	virtual CT *operator->() const noexcept(true) {
+	template<typename std::enable_if<!is_pair<RV>::value, T>::type * = nullptr>
+	T *operator->() noexcept(true) {
 
 		return &*_it;
 	}

@@ -24,8 +24,8 @@ class IteratorWrapper;
 template<typename T>
 class Iterator
 {
-	typedef typename MakeMutable<T>::type MT;
-	typedef typename MakeConst<T>::type   CT;
+	typedef typename make_mutable<T>::type MT;
+	typedef typename make_const<T>::type   CT;
 
 	friend class Iterator<MT>;
 
@@ -117,16 +117,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	virtual T &operator*() noexcept(true) {
-
-		return **_data;
-	}
-
-	/*!
-	 * @brief Dereference operator
-	 * @return A reference to the base class stored inside
-	 */
-	virtual CT &operator*() const noexcept(true) {
+	virtual T &operator*() const noexcept(true) {
 
 		return **_data;
 	}
@@ -135,16 +126,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	virtual T *operator->() noexcept(true) {
-
-		return &**_data;
-	}
-
-	/*!
-	 * @brief Arrow operator
-	 * @return A pointer to the base class stored inside
-	 */
-	virtual CT *operator->() const noexcept(true) {
+	virtual T *operator->() const noexcept(true) {
 
 		return &**_data;
 	}

@@ -15,76 +15,80 @@
 template<typename T, typename U>
 class IteratorWrapperLeft : public IteratorWrapper<T, U>
 {
-	typedef typename MakeMutable<T>::type MT;
-	typedef typename MakeConst<T>::type   CT;
-	typedef typename MakeMutable<U>::type MU;
-	typedef typename MakeConst<U>::type   CU;
+	typedef typename make_mutable<T>::type                            MT;
+	typedef typename make_const<T>::type                              CT;
+	typedef typename make_mutable<U>::type                            MU;
+	typedef typename make_const<U>::type                              CU;
 
 public:
 	/*!
 	 * @brief Conversion constructor, takes an iterator
 	 * @param iterator The iterator to store internally
 	 */
-	explicit IteratorWrapperLeft(CU & iterator) noexcept(true) : IteratorWrapper<T, U>(iterator) {}
+	explicit IteratorWrapperLeft(CU &iterator) noexcept(true) : IteratorWrapper<T, U>(iterator) {
+	}
 
 	/*!
 	 * @brief Conversion constructor, takes another iterator
 	 * @param rhs The iterator to copy
 	 */
-	explicit IteratorWrapperLeft(const Iterator<T>& rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {}
+	explicit IteratorWrapperLeft(const Iterator<T> &rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {
+	}
 
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The IteratorWrapperLeft to copy
 	 */
-	IteratorWrapperLeft(const IteratorWrapperLeft<T, U>& rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {}
+	IteratorWrapperLeft(const IteratorWrapperLeft<T, U> &rhs) noexcept(true) : IteratorWrapper<T, U>(rhs) {
+	}
 
 	/*!
 	 * @brief Default destructor
 	 */
 	virtual ~IteratorWrapperLeft() noexcept(true) = default;
 
-	/*!
-	 * @brief Dereference operator
-	 * @return A reference to the base class
-	 */
-	virtual T&operator*()  noexcept(true) {
-
-		return IteratorWrapper<T, U>::_it->first;
-	}
+	// Finding the return value of the dereference operator on the iterator
+	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
+	typedef typename pair_values<RV>::first                           first;
+	typedef typename pair_values<RV>::second                          second;
 
 	/*!
 	 * @brief Dereference operator, const
 	 * @return A const reference to the base class
 	 */
-	virtual CT&operator*() const noexcept(true) {
+	template<typename std::enable_if<std::is_const<T>::value, T>::type * = nullptr>
+	T &operator*() const noexcept(true) {
 
-		return IteratorWrapper<T, U>::_it->first;
+		return (*IteratorWrapper<T, U>::_it).first;
 	}
 
-	/*!
-	 * @brief Arrow operator
-	 * @return A pointer to the base class
-	 */
-	virtual T*operator->()  noexcept(true) {
+	template<typename std::enable_if<!std::is_const<T>::value, T>::type * = nullptr>
+	T &operator*() const noexcept(true) {
 
-		return &(IteratorWrapper<T, U>::_it->first);
+		return const_cast<first &>((*IteratorWrapper<T, U>::_it).first);
 	}
 
 	/*!
 	 * @brief Arrow operator, const
 	 * @return A const pointer to the base class
 	 */
-	virtual CT*operator->() const noexcept(true) {
+	template<typename std::enable_if<std::is_const<T>::value, T>::type * = nullptr>
+	T *operator->() const noexcept(true) {
 
-		return &(IteratorWrapper<T, U>::_it->first);
+		return &((*IteratorWrapper<T, U>::_it).first);
+	}
+
+	template<typename std::enable_if<!std::is_const<T>::value, T>::type * = nullptr>
+	T *operator->() const noexcept(true) {
+
+		return const_cast<first *>(&((*IteratorWrapper<T, U>::_it).first));
 	}
 
 	/*!
 	 * @brief Copies this iterator
 	 * @return A new, identical iterator
 	 */
-	virtual Iterator<T>* Copy() const noexcept(true) {
+	virtual Iterator<T> *Copy() const noexcept(true) {
 
 		return new IteratorWrapperLeft(IteratorWrapper<T, U>::_it);
 	}
