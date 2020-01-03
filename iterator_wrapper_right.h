@@ -51,7 +51,7 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class
 	 */
-	virtual T &operator*() noexcept(true) {
+	T &operator*() const noexcept(true) {
 
 		return (*IteratorWrapper<T, U>::_it).second;
 	}
@@ -60,7 +60,7 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class
 	 */
-	virtual T *operator->() noexcept(true) {
+	T *operator->() const noexcept(true) {
 
 		return &((*IteratorWrapper<T, U>::_it).second);
 	}

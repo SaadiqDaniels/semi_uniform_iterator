@@ -56,32 +56,18 @@ public:
 	 * @brief Dereference operator, const
 	 * @return A const reference to the base class
 	 */
-	template<typename std::enable_if<std::is_const<T>::value, T>::type * = nullptr>
-	T &operator*() const noexcept(true) {
+	CT &operator*() const noexcept(true) {
 
 		return (*IteratorWrapper<T, U>::_it).first;
-	}
-
-	template<typename std::enable_if<!std::is_const<T>::value, T>::type * = nullptr>
-	T &operator*() const noexcept(true) {
-
-		return const_cast<first &>((*IteratorWrapper<T, U>::_it).first);
 	}
 
 	/*!
 	 * @brief Arrow operator, const
 	 * @return A const pointer to the base class
 	 */
-	template<typename std::enable_if<std::is_const<T>::value, T>::type * = nullptr>
-	T *operator->() const noexcept(true) {
+	CT *operator->() const noexcept(true) {
 
 		return &((*IteratorWrapper<T, U>::_it).first);
-	}
-
-	template<typename std::enable_if<!std::is_const<T>::value, T>::type * = nullptr>
-	T *operator->() const noexcept(true) {
-
-		return const_cast<first *>(&((*IteratorWrapper<T, U>::_it).first));
 	}
 
 	/*!

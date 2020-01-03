@@ -33,8 +33,8 @@ int main()
   	unmap_d2.insert(std::make_pair<int, derived2>(reinterpret_cast<int &&>(i), derived2(i)));
   }
 
-  auto map_d1_front = MakeIteratorLeft<base>(map_d1.begin());
-  auto map_d1_back = MakeIteratorLeft<base>(map_d1.end());
+  auto map_d1_front = MakeIteratorLeft<const base>(map_d1.begin());
+  auto map_d1_back = MakeIteratorLeft<const base>(map_d1.end());
 
   auto unmap_d2_front = MakeIteratorRight<base>(unmap_d2.begin());
   auto unmap_d2_back = MakeIteratorRight<base>(unmap_d2.end());
