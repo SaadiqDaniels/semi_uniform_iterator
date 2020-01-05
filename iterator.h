@@ -2,10 +2,10 @@
  * @file iterator.h
  * @author Saadiq Daniels
  * @date 23/12/2019
- * @version 1.0
+ * @version 1.2
  * @brief
- * 	This file includes all of the smaller files so that ther is only one include file,
- * 	also includes a helper function
+ * 	This file includes all of the smaller files so that there is only one include file,
+ * 	also includes helper functions
  */
 
 #ifndef TEMPL_ITERATOR_ITERATOR_H
@@ -16,7 +16,7 @@
  * @tparam T The type to strip const off of
  */
 template<typename T>
-struct make_mutable
+struct make_mutable : std::true_type
 {
 	typedef T type;
 };
@@ -26,7 +26,7 @@ struct make_mutable
  * @tparam T The type to strip const off of
  */
 template<typename T>
-struct make_mutable<const T>
+struct make_mutable<const T> : std::false_type
 {
 	typedef T type;
 };
@@ -36,7 +36,7 @@ struct make_mutable<const T>
  * @tparam T The type to make const
  */
 template<typename T>
-struct make_const
+struct make_const : std::false_type
 {
 	typedef const T type;
 };
@@ -46,7 +46,7 @@ struct make_const
  * @tparam T The type to make const
  */
 template<typename T>
-struct make_const<const T>
+struct make_const<const T> : std::true_type
 {
 	typedef const T type;
 };

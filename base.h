@@ -2,7 +2,7 @@
  * @file inheritance.h
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 1.0
+ * @version 1.3
  * @brief
  *      Tests the functionality of the iterator classes with some simple
  *      inheritance objects and classes

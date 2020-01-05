@@ -2,37 +2,34 @@
  * @file iterator_base.h
  * @author Saadiq Daniels
  * @date 23/12/2019
- * @version 1.0
+ * @version 1.2
  * @brief
- * 	The iterator base class, not const qualified. Provides an
- * 	interface to the more templatized derived class
+ * 	The iterator base class. Provides an interface
+ * 	to the more templatized derived class.
  */
 
 #ifndef TEMPL_ITERATOR_ITERATOR_BASE_H
 #define TEMPL_ITERATOR_ITERATOR_BASE_H
 
-#include <algorithm>
-#include <type_traits>
-#include <iterator>
-
+// Forward declaration of the IteratorWrapper class
 template<typename T, typename U>
 class IteratorWrapper;
 
 /*!
  * @brief The base iterator class
- * @tparam T The base iterator type
+ * @tparam T The base class to iterate over
  */
 template<typename T>
 class Iterator : std::forward_iterator_tag
 {
 	typedef typename make_mutable<T>::type MT;
 	typedef typename make_const<T>::type   CT;
+	friend Iterator<MT>;
+	friend Iterator<CT>;
 
-	friend class Iterator<MT>;
-
-	friend class Iterator<CT>;
-
+	// The template iterator stored inside
 	Iterator<T> *_data;
+	// The reference counter
 	int         *_RC;
 
 	/*!
@@ -66,19 +63,42 @@ class Iterator : std::forward_iterator_tag
 	}
 
 public:
+	using value_type = T;
+	using difference_type = long;
+	using pointer = T *;
+	using reference = T &;
 
 	/*!
 	 * @brief Copy constructor
 	 * @param rhs The Iterator to copy from
 	 */
-	Iterator(const Iterator<MT> &rhs) noexcept(true) : _data(rhs._data), _RC(&++*rhs._RC) {
+	Iterator(const Iterator<MT> &rhs) noexcept(true) : _data(nullptr), _RC(&++*rhs._RC) {
+
+		if constexpr (make_mutable<T>::value)
+		{
+			_data = reinterpret_cast<Iterator<MT> *>(rhs._data);
+		}
+		else
+		{
+			_data = reinterpret_cast<Iterator<CT> *>(rhs._data);
+		}
+
 	}
 
 	/*!
 	 * @brief Copy constructor, const
 	 * @param rhs The const iterator to copy from
 	 */
-	Iterator(const Iterator<CT> &rhs) noexcept(true) : _data(rhs._data), _RC(&++*rhs._RC) {
+	Iterator(const Iterator<CT> &rhs) noexcept(true) : _data(nullptr), _RC(&++*(rhs._RC)) {
+
+		if constexpr (make_mutable<T>::value)
+		{
+			_data = reinterpret_cast<Iterator<MT> *>(rhs._data);
+		}
+		else
+		{
+			_data = reinterpret_cast<Iterator<CT> *>(rhs._data);
+		}
 	}
 
 	/*!
@@ -115,47 +135,6 @@ public:
 	virtual ~Iterator() noexcept(true) {
 
 		DeleteIf();
-	}
-
-	/*!
-	 * @brief Dereference operator
-	 * @return A reference to the base class stored inside
-	 */
-	virtual T &operator*() const noexcept(true) {
-
-		return **_data;
-	}
-
-	/*!
-	 * @brief Arrow operator
-	 * @return A pointer to the base class stored inside
-	 */
-	virtual T *operator->() const noexcept(true) {
-
-		return &**_data;
-	}
-
-	/*!
-	 * @brief Increment operator, moves the pointer forward
-	 * @return A reference to the left hand object
-	 */
-	virtual Iterator &operator++() noexcept(true) {
-
-		CopyIf();
-		++*_data;
-		return *this;
-	}
-
-	/*!
-	 * @brief Post increment operator
-	 * @return A copy of this iterator before the increment
-	 */
-	Iterator<T> operator++(int) noexcept(true) {
-
-		const Iterator<T> RV(*this);
-		CopyIf();
-		++*_data;
-		return RV;
 	}
 
 	/*!
@@ -205,6 +184,57 @@ public:
 	}
 
 	/*!
+	 * @brief Subtraction operator, finds the difference between two iterators
+	 * @param rhs The end iterator to find the difference between
+	 * @return A difference_type(long) representing the distance between them
+	 */
+	virtual difference_type operator-(const Iterator<T> &rhs) const noexcept(true) {
+
+		return (*_data) - (*rhs._data);
+	}
+
+	/*!
+	 * @brief Dereference operator
+	 * @return A reference to the base class stored inside
+	 */
+	virtual reference operator*() const noexcept(true) {
+
+		return **_data;
+	}
+
+	/*!
+	 * @brief Arrow operator
+	 * @return A pointer to the base class stored inside
+	 */
+	virtual pointer operator->() const noexcept(true) {
+
+		return &**_data;
+	}
+
+	/*!
+	 * @brief Increment operator, moves the pointer forward
+	 * @return A reference to the left hand object
+	 */
+	virtual Iterator &operator++() noexcept(true) {
+
+		CopyIf();
+		++*_data;
+		return *this;
+	}
+
+	/*!
+	 * @brief Post increment operator
+	 * @return A copy of this iterator before the increment
+	 */
+	const Iterator<T> operator++(int) noexcept(true) {
+
+		const Iterator<T> RV(*this);
+		CopyIf();
+		++*_data;
+		return RV;
+	}
+
+	/*!
 	 * @brief Copies this iterator
 	 * @return A new, identical iterator
 	 */
@@ -213,13 +243,6 @@ public:
 		return _data->Copy();
 	}
 
-	virtual long operator-(const Iterator<T>& rhs) const  noexcept(true) {
-		return (*_data) - (*rhs._data);
-	}
-
-	virtual bool operator<(const Iterator<T>& rhs) const noexcept(true) {
-		return (*_data) < (*rhs._data);
-	}
 };
 
 #endif //TEMPL_ITERATOR_ITERATOR_BASE_H

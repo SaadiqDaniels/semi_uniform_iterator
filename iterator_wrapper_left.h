@@ -2,9 +2,11 @@
  * @file iterator_wrapper_left.h
  * @author Saadiq Daniels
  * @date 31/12/2019
- * @version 0.5
+ * @version 1.0
  * @brief
- * 	The further specialization for pair iterators with a left base
+ * 	The further specialization for pair iterators with a left base,
+ * 	works only with a constant base class, changing key values is
+ * 	not allowed by most pair-based containers
  */
 
 #ifndef TEMPL_ITERATOR_ITERATOR_WRAPPER_LEFT_H
@@ -21,6 +23,11 @@ class IteratorWrapperLeft : public IteratorWrapper<T, U>
 	typedef typename make_const<U>::type                              CU;
 
 public:
+	using value_type = T;
+	using difference_type = long;
+	using pointer = T *;
+	using reference = T &;
+
 	/*!
 	 * @brief Conversion constructor, takes an iterator
 	 * @param iterator The iterator to store internally

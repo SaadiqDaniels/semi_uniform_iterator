@@ -2,7 +2,7 @@
  * @file algorithm_driver.cpp
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 0.5
+ * @version 1.0
  */
 
 #include <iostream>      // std::cout
@@ -18,9 +18,7 @@
 
 /*!
  * Tests the uses of the iterator classes with
- * standard template library algorithms :
- * std::sort
- * std::find
+ * standard template library algorithms
  * @return 0
  */
 int main() {
@@ -32,7 +30,7 @@ int main() {
 		vector.push_front(i);
 	}
 
-	// Make iterators out of the two objects
+	// Make iterators for the front and back
 	Iterator<base> list_front = MakeIterator<base>(vector.begin());
 	Iterator<base> list_back  = MakeIterator<base>(vector.end());
 
@@ -42,6 +40,7 @@ int main() {
 	});
 	std::cout << std::endl;
 
+	// Find the smallest element
 	auto min = std::min_element(list_front, list_back);
 	std::cout << *min << std::endl;
 
@@ -50,8 +49,6 @@ int main() {
 		std::cout << rhs;
 	});
 	std::cout << std::endl;
-
-	return 0;
 
 	return 0;
 }

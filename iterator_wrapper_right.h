@@ -2,7 +2,7 @@
  * @file iterator_wrapper_right.h
  * @author Saadiq Daniels
  * @date 31/12/2019
- * @version 0.5
+ * @version 1.0
  * @brief
  * 	The further specialization for pair iterators with a right base
  */
@@ -21,6 +21,11 @@ class IteratorWrapperRight : public IteratorWrapper<T, U>
 	typedef typename make_const<U>::type   CU;
 
 public:
+	using value_type = T;
+	using difference_type = long;
+	using pointer = T *;
+	using reference = T &;
+
 	/*!
 	 * @brief Conversion constructor, takes an iterator
 	 * @param iterator The iterator to store internally

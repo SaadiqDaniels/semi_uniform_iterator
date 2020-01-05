@@ -2,7 +2,7 @@
  * @file c_map_driver.cpp
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 0.5
+ * @version 1.0
  */
 
 #include <iostream>      // std::cout
@@ -15,11 +15,8 @@
 #include "helpers.h"     // Print function
 
 /*!
- * Tests complex uses of map containers :
- * swapping data
- * printing data
- * reverse iterating
- * @return
+ * Tests const uses of map containers
+ * @return 0
  */
 int main()
 {

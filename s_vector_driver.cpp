@@ -2,7 +2,7 @@
  * @file s_vector_driver.cpp
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 0.5
+ * @version 1.0
  */
 
 #include <iostream>      // std::cout
@@ -18,9 +18,7 @@
 #include "helpers.h"     // print
 
 /*!
- * Tests simple uses of vector containers:
- * list values
- * set values
+ * Tests simple uses of vector containers
  * @return 0
  */
 int main() {

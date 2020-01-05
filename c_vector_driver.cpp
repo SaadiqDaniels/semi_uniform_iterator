@@ -2,7 +2,7 @@
  * @file c_vector_driver.cpp
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 0.5
+ * @version 1.0
  */
 
 #include <iostream>      // std::cout
@@ -10,18 +10,13 @@
 
 #include <vector>        // std::vector
 #include <list>          // std::list
-#include <forward_list>  // std::forward_list
-#include <algorithm>     // std::sort
 
 #include "iterator.h"    // Iterator stuff
 #include "base.h"        // Inheritance classes
 #include "helpers.h"     // Print function
 
 /*!
- * Tests complex uses of vector containers:
- * set values equal to each other
- * reverse iterating
- * equality operator
+ * Tests const uses of vector containers
  * @return 0
  */
 int main() {
@@ -53,13 +48,10 @@ int main() {
 	assert(list_d1.size() == vector_d1.size() && vector_d1.size() == list_d3.size());
 
 	// Make iterators out of the two objects
-	auto                 list_d1_it_rtr  = MakeIterator<const base>(list_d3.begin());
+	auto                 list_d1_it_rtr  = MakeIterator<base>(list_d3.begin());
 	Iterator<const base> list_d1_cit_rtr = MakeIterator<const base>(list_d3.end());
 
 	// Print the d1 list using the iterators
-	print(list_d1_it_rtr, list_d1_cit_rtr);
-
-	// Print again
 	print(list_d1_it_rtr, list_d1_cit_rtr);
 
 	return 0;
