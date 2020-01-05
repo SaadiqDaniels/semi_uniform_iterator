@@ -21,10 +21,10 @@
 template<typename T, typename U>
 class IteratorWrapper : public Iterator<T>
 {
-	typedef typename make_mutable<T>::type MT;
-	typedef typename make_const<T>::type   CT;
-	typedef typename make_mutable<U>::type MU;
-	typedef typename make_const<U>::type   CU;
+	typedef typename make_mutable<T>::type                            MT;
+	typedef typename make_const<T>::type                              CT;
+	typedef typename make_mutable<U>::type                            MU;
+	typedef typename make_const<U>::type                              CU;
 
 	//Figuring out if *operator returns a pair or not
 	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
@@ -33,7 +33,7 @@ protected:
 	/*!
 	 * @brief The derived iterator to store internally
 	 */
-	MU                                                                _it;
+	MU _it;
 
 public:
 	/*!
@@ -69,20 +69,24 @@ public:
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	template<typename A = T, typename B = RV>
-	auto operator*() const noexcept(true) -> typename std::enable_if<!is_pair<B>::value, T&>::value {
+	T &operator*() const noexcept(true) {
 
-		return *_it;
+		if constexpr (!is_pair<RV>::value)
+		{
+			return *_it;
+		}
 	}
 
 	/*!
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	template<typename A = T, typename B = RV>
-	auto operator->() const noexcept(true) -> typename std::enable_if<!is_pair<B>::value, T*>::value {
+	T *operator->() const noexcept(true) {
 
-		return &*_it;
+		if constexpr (!is_pair<RV>::value)
+		{
+			return &*_it;
+		}
 	}
 
 	/*!
