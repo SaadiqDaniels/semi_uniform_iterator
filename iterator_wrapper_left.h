@@ -49,8 +49,8 @@ public:
 
 	// Finding the return value of the dereference operator on the iterator
 	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
-	typedef typename pair_values<RV>::first                           first;
-	typedef typename pair_values<RV>::second                          second;
+	typedef typename is_pair<RV>::first                               first;
+	typedef typename is_pair<RV>::second                              second;
 
 	/*!
 	 * @brief Dereference operator, const

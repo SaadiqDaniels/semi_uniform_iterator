@@ -26,6 +26,9 @@ class IteratorWrapper : public Iterator<T>
 	typedef typename make_mutable<U>::type MU;
 	typedef typename make_const<U>::type   CU;
 
+	//Figuring out if *operator returns a pair or not
+	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
+
 protected:
 	/*!
 	 * @brief The derived iterator to store internally
@@ -38,6 +41,8 @@ public:
 	 * @param iterator The derived iterator to store
 	 */
 	explicit IteratorWrapper(CU &iterator) noexcept(true) : Iterator<T>(this), _it(iterator) {
+		//std::cout << typeid(RV).name() << std::endl;
+		//std::cout << is_pair<RV>::value << std::endl;
 	}
 
 	/*!
@@ -60,15 +65,12 @@ public:
 	 */
 	virtual ~IteratorWrapper() noexcept(true) = default;
 
-	//Figuring out if *operator returns a pair or not
-	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
-
 	/*!
 	 * @brief Dereference operator
 	 * @return A reference to the base class stored inside
 	 */
-	template<typename std::enable_if<!is_pair<RV>::value, T>::type * = nullptr>
-	T &operator*() noexcept(true) {
+	template<typename A = T, typename B = RV>
+	auto operator*() const noexcept(true) -> typename std::enable_if<!is_pair<B>::value, T&>::value {
 
 		return *_it;
 	}
@@ -77,8 +79,8 @@ public:
 	 * @brief Arrow operator
 	 * @return A pointer to the base class stored inside
 	 */
-	template<typename std::enable_if<!is_pair<RV>::value, T>::type * = nullptr>
-	T *operator->() noexcept(true) {
+	template<typename A = T, typename B = RV>
+	auto operator->() const noexcept(true) -> typename std::enable_if<!is_pair<B>::value, T*>::value {
 
 		return &*_it;
 	}

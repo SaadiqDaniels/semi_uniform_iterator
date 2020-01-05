@@ -61,30 +61,18 @@ struct is_pair : std::false_type
 };
 
 /*!
- * @brief Takes a type and returns type if it is a pair
+ * @brief Takes a type and returns true if it is a pair
  * @tparam T The first pair parameter
  * @tparam U The second pair parameter
  */
 template<typename T, typename U>
 struct is_pair<std::pair<T, U>> : std::true_type
 {
-};
-
-template<typename T>
-struct pair_values
-{
-	typedef T type;
-};
-
-template<typename T, typename U>
-struct pair_values<std::pair<T, U> &>
-{
 	typedef T first;
 	typedef U second;
 };
-
 template<typename T, typename U>
-struct pair_values<std::pair<T, U>>
+struct is_pair<std::pair<T, U>&> : std::true_type
 {
 	typedef T first;
 	typedef U second;

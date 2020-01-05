@@ -25,6 +25,26 @@
  */
 int main()
 {
+	std::deque<derived1> vector;
+	for (int i = 0; i < 100; ++i)
+	{
+		// Push to the front of the vector
+		vector.push_front(i);
+	}
+
+	// Make iterators out of the two objects
+	Iterator<base> list_front  = MakeIterator<base>(vector.begin());
+	Iterator<base> list_back = MakeIterator<base>(vector.end());
+
+	// Print the list using the iterators
+	print(list_front, list_back);
+
+	// Sort the list
+
+	// Print again
+	print(list_front, list_back);
+
+	return 0;
   
   return 0;
 }
