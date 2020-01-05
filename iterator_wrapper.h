@@ -138,6 +138,14 @@ public:
 
 		return new IteratorWrapper<T, U>(_it);
 	}
+
+	virtual long operator-(const Iterator<T>& rhs) const noexcept(true) {
+		 return _it - (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_it;
+	}
+
+	virtual bool operator<(const Iterator<T>& rhs) const noexcept(true) {
+		return _it < (reinterpret_cast<const IteratorWrapper<T, U> *>(&rhs))->_it;
+	}
 };
 
 #endif //TEMPL_ITERATOR_ITERATOR_WRAPPER_H

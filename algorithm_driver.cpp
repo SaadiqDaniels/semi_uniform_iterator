@@ -23,28 +23,35 @@
  * std::find
  * @return 0
  */
-int main()
-{
+int main() {
+
 	std::deque<derived1> vector;
-	for (int i = 0; i < 100; ++i)
+	for (int             i = 0; i < 2; ++i)
 	{
 		// Push to the front of the vector
 		vector.push_front(i);
 	}
 
 	// Make iterators out of the two objects
-	Iterator<base> list_front  = MakeIterator<base>(vector.begin());
-	Iterator<base> list_back = MakeIterator<base>(vector.end());
+	Iterator<base> list_front = MakeIterator<base>(vector.begin());
+	Iterator<base> list_back  = MakeIterator<base>(vector.end());
 
 	// Print the list using the iterators
-	print(list_front, list_back);
+	std::for_each(list_front, list_back, [](const base &rhs) {
+		std::cout << rhs;
+	});
+	std::cout << std::endl;
 
-	// Sort the list
+	auto min = std::min_element(list_front, list_back);
+	std::cout << *min << std::endl;
 
 	// Print again
-	print(list_front, list_back);
+	std::for_each(list_front, list_back, [](const base &rhs) {
+		std::cout << rhs;
+	});
+	std::cout << std::endl;
 
 	return 0;
-  
-  return 0;
+
+	return 0;
 }

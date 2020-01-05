@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <type_traits>
+#include <iterator>
 
 template<typename T, typename U>
 class IteratorWrapper;
@@ -22,7 +23,7 @@ class IteratorWrapper;
  * @tparam T The base iterator type
  */
 template<typename T>
-class Iterator
+class Iterator : std::forward_iterator_tag
 {
 	typedef typename make_mutable<T>::type MT;
 	typedef typename make_const<T>::type   CT;
@@ -53,11 +54,14 @@ class Iterator
 	 */
 	void DeleteIf() noexcept(true) {
 
-		if (!--*_RC)
+		if (_RC)
 		{
-			// If this is the last instance delete the data
-			delete _data;
-			delete _RC;
+			if (!--*_RC)
+			{
+				// If this is the last instance delete the data
+				delete _data;
+				delete _RC;
+			}
 		}
 	}
 
@@ -164,6 +168,7 @@ public:
 		DeleteIf();
 		_data = rhs._data;
 		_RC   = rhs._RC;
+		++*_RC;
 		return *this;
 	}
 
@@ -206,6 +211,14 @@ public:
 	virtual Iterator<T> *Copy() const noexcept(true) {
 
 		return _data->Copy();
+	}
+
+	virtual long operator-(const Iterator<T>& rhs) const  noexcept(true) {
+		return (*_data) - (*rhs._data);
+	}
+
+	virtual bool operator<(const Iterator<T>& rhs) const noexcept(true) {
+		return (*_data) < (*rhs._data);
 	}
 };
 
