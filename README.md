@@ -141,7 +141,7 @@ And doing all kinds of other wacky things.
 
 Read more about how I got myself into this problem and how I designed the solution here: LINK TBD
 
-#How to Use
+##How to Use
 
 A short list of things you should know to use this code:
 ```c++
