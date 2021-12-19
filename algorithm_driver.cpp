@@ -2,19 +2,16 @@
  * @file algorithm_driver.cpp
  * @author Saadiq Daniels
  * @date 2/12/2019
- * @version 1.0
+ * @version 2.0
  */
 
-#include <iostream>      // std::cout
+#include <iostream>
+#include <deque>
+#include <algorithm>
+#include <random>
 
-#include <list>          // std::list
-#include <deque>         // std::deque
-
-#include <algorithm>     // std::sort, std::find
-
-#include "iterator.h"    // Iterator stuff
-#include "base.h"        // Inheritance classes
-#include "helpers.h"     // Print function
+#include "iterator.h"
+#include "base.h"
 
 /*!
  * Tests the uses of the iterator classes with
@@ -24,11 +21,14 @@
 int main() {
 
 	std::deque<derived1> vector;
-	for (int             i = 0; i < 2; ++i)
+	for (int             i = 0; i < 100; ++i)
 	{
 		// Push to the front of the vector
-		vector.push_front(i);
+		vector.emplace_front(i);
 	}
+    // Scramble the vector
+    // This needs random access iterators, which are not accessible through Iterator<T> classes
+    std::shuffle(vector.begin(), vector.end(), std::mt19937(std::random_device()()));
 
 	// Make iterators for the front and back
 	Iterator<base> list_front = MakeIterator<base>(vector.begin());
@@ -44,9 +44,9 @@ int main() {
 	auto min = std::min_element(list_front, list_back);
 	std::cout << *min << std::endl;
 
-	// Print again
-	std::for_each(list_front, list_back, [](const base &rhs) {
-		std::cout << rhs;
+	// Print again, starting from the smallest element
+	std::for_each(min, list_back, [](const base &rhs) {
+		std::cout << dynamic_cast<const derived1&>(rhs);
 	});
 	std::cout << std::endl;
 

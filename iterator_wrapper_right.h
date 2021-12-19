@@ -2,7 +2,7 @@
  * @file iterator_wrapper_right.h
  * @author Saadiq Daniels
  * @date 31/12/2019
- * @version 1.0
+ * @version 1.1
  * @brief
  * 	The further specialization for pair iterators with a right base
  */
@@ -15,16 +15,9 @@
 template<typename T, typename U>
 class IteratorWrapperRight : public IteratorWrapper<T, U>
 {
-	typedef typename make_mutable<T>::type MT;
-	typedef typename make_const<T>::type   CT;
-	typedef typename make_mutable<U>::type MU;
 	typedef typename make_const<U>::type   CU;
 
 public:
-	using value_type = T;
-	using difference_type = long;
-	using pointer = T *;
-	using reference = T &;
 
 	/*!
 	 * @brief Conversion constructor, takes an iterator

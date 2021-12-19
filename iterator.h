@@ -2,7 +2,7 @@
  * @file iterator.h
  * @author Saadiq Daniels
  * @date 23/12/2019
- * @version 1.2
+ * @version 2.0
  * @brief
  * 	This file includes all of the smaller files so that there is only one include file,
  * 	also includes helper functions
@@ -93,7 +93,7 @@ struct is_pair<std::pair<T, U>&> : std::true_type
 template<typename T, typename U>
 Iterator<T> MakeIterator(const U &iterator) {
 
-	return *new IteratorWrapper<T, U>(iterator);
+	return static_cast<Iterator<T>>(*new IteratorWrapper<T, U>(iterator));
 }
 
 /*!
@@ -107,7 +107,7 @@ Iterator<T> MakeIterator(const U &iterator) {
 template<typename T, typename U>
 Iterator<T> MakeIteratorLeft(const U &iterator) {
 
-	return *new IteratorWrapperLeft<T, U>(iterator);
+	return static_cast<Iterator<T>>(*new IteratorWrapperLeft<T, U>(iterator));
 }
 
 /*!
@@ -121,7 +121,7 @@ Iterator<T> MakeIteratorLeft(const U &iterator) {
 template<typename T, typename U>
 Iterator<T> MakeIteratorRight(const U &iterator) {
 
-	return *new IteratorWrapperRight<T, U>(iterator);
+	return static_cast<Iterator<T>>(*new IteratorWrapperRight<T, U>(iterator));
 }
 
 #endif //TEMPL_ITERATOR_ITERATOR_H

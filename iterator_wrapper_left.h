@@ -17,16 +17,10 @@
 template<typename T, typename U>
 class IteratorWrapperLeft : public IteratorWrapper<T, U>
 {
-	typedef typename make_mutable<T>::type                            MT;
 	typedef typename make_const<T>::type                              CT;
-	typedef typename make_mutable<U>::type                            MU;
 	typedef typename make_const<U>::type                              CU;
 
 public:
-	using value_type = T;
-	using difference_type = long;
-	using pointer = T *;
-	using reference = T &;
 
 	/*!
 	 * @brief Conversion constructor, takes an iterator
@@ -54,14 +48,9 @@ public:
 	 */
 	virtual ~IteratorWrapperLeft() noexcept(true) = default;
 
-	// Finding the return value of the dereference operator on the iterator
-	typedef typename std::result_of<decltype(&U::operator*)(U)>::type RV;
-	typedef typename is_pair<RV>::first                               first;
-	typedef typename is_pair<RV>::second                              second;
-
 	/*!
 	 * @brief Dereference operator, const
-	 * @return A const reference to the base class
+	 * @return A const reference to the base class, since the base class is the key
 	 */
 	CT &operator*() const noexcept(true) {
 
@@ -70,7 +59,7 @@ public:
 
 	/*!
 	 * @brief Arrow operator, const
-	 * @return A const pointer to the base class
+	 * @return A const pointer to the base class, since the base class is the key
 	 */
 	CT *operator->() const noexcept(true) {
 

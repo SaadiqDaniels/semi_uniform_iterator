@@ -3,8 +3,9 @@ project(templ_iterator)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(simple_vector s_vector_driver.cpp base.h iterator.h iterator_base.h iterator_wrapper.h)
-add_executable(const_vector c_vector_driver.cpp base.h iterator.h iterator_base.h iterator_wrapper.h)
-add_executable(simple_map s_map_driver.cpp base.h iterator.h iterator_base.h iterator_wrapper.h iterator_wrapper_left.h iterator_wrapper_right.h)
-add_executable(const_map c_map_driver.cpp base.h iterator.h iterator_base.h iterator_wrapper.h iterator_wrapper_left.h iterator_wrapper_right.h)
-add_executable(stl_algorithm algorithm_driver.cpp base.h iterator.h iterator_base.h iterator_wrapper.h iterator_wrapper_left.h iterator_wrapper_right.h)
+#add_compile_options(-Wall -Wextra -pedantic -ansi -Werror)
+
+add_executable(constructor constructor_driver.cpp)
+add_executable(vector vector_driver.cpp)
+add_executable(map map_driver.cpp)
+add_executable(stl_algorithm algorithm_driver.cpp)
